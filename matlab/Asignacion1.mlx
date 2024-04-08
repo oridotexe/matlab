@@ -1,0 +1,27 @@
+function [r, iter] = newtonra(f, df, x0, tol, itmax)
+    fprintf("hola")
+    iter = 0;
+     x1 = x0 - (f(x0) / df(x0));
+     while abs(x1 - x0) > tol  && iter <= itmax
+         iter = iter + 1;
+         x0 = x1;
+         x1 = x0 - (f(x0) / df(x0));
+         display(x1)
+     end
+     r = x1;
+end
+q = 2*10^-5;
+ep = 8.85* 10^-12;
+a = 0.9;
+
+f = @ (x) ((1 ./ (4*pi* ep)) .* (( q * q * x) ./ ((x.^2 + a^2).^(3/2))) - 1);
+df = @ (x) ((1 ./ (4*pi* ep) .* ( q .* q .* (a^2 - 2.*x^2)) ./ ((x^2 + a^2)^(5/2))));
+
+[r, iter] = newtonra(f, df, 0.1, 10^-3, 50);
+fprintf("La raiz de la funcion es: %f", r)
+fprintf("El numero de iteraciones es: %i", iter)
+
+% graficar
+x_values = linspace(0, 2*a, 1000);
+F_values = f(x_values);
+plot(x_values, F_values);
