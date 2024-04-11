@@ -1,9 +1,24 @@
 function [r, iter] = newtonra(f, df, x0, tol, itmax)
-    fprintf("hola")
+  
     iter = 0;
-     x1 = x0 - (f(x0) / df(x0));
+    x1 = x0 - (f(x0) / df(x0));
+
+    x_values = linspace(0, 1);
+    F_values = f(x_values);
+    
+    %Se grafica la funcion original
+    plot(x_values, F_values);
+    hold on;  
+   
      while abs(x1 - x0) > tol  && iter <= itmax
+         %Se grafican los puntos donde corta la tangente
+         plot(x0, f(x0), "r*")
+         %Se grafica la tangente
+         tangent_line = df(x0)*(x_values - x0) + f(x0);
+         plot(x_values,tangent_line)
+
          iter = iter + 1;
+        
          x0 = x1;
          x1 = x0 - (f(x0) / df(x0));
          display(x1)
@@ -21,7 +36,3 @@ df = @ (x) ((1 ./ (4*pi* ep) .* ( q .* q .* (a^2 - 2.*x^2)) ./ ((x^2 + a^2)^(5/2
 fprintf("La raiz de la funcion es: %f", r)
 fprintf("El numero de iteraciones es: %i", iter)
 
-% graficar
-x_values = linspace(0, 2*a, 1000);
-F_values = f(x_values);
-plot(x_values, F_values);
