@@ -1,7 +1,6 @@
 function [r, iter, x1_Array] = newtonra(f, df, x0, tol, itmax)
   
     x1_Array = zeros(itmax, 1);
-    x0_Array = zeros(itmax, 1);
 
     %Se tiene que inicializar en 1 para que pueda funcionar con los array
     iter = 1;
@@ -11,7 +10,6 @@ function [r, iter, x1_Array] = newtonra(f, df, x0, tol, itmax)
        
     while abs(x1 - x0) > tol  && iter < itmax   
         x0 = x1;
-        x0_Array(iter) = x0;
         x1 = x0 - (f(x0) / df(x0));
         x1_Array(iter) = x1;
         iter = iter + 1;
