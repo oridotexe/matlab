@@ -1,3 +1,4 @@
+% Funcion que calcula las raices usando el metodo de Newton-Raphson
 function [r, iter] = newtonra(f, df, x0, tol, itmax)
     iter = 0;
     x1 = x0 - (f(x0) / df(x0));
@@ -10,21 +11,27 @@ function [r, iter] = newtonra(f, df, x0, tol, itmax)
      r = x1;
 end
 
-% % Funcion para graficar la funcion y las rectas tangentes
-function graph(iter,f,df)  
+% Funcion para graficar la funcion y las rectas tangentes
+function graph(iter,f,df) 
     x_values = linspace(0, 1);
     F_values = f(x_values);
     plot(x_values, F_values);
     hold on;  
     x0 = 0; 
+
     for i = 1:iter
         x1 = x0 - (f(x0) / df(x0));
-        plot(x1, f(x1), "r*")
+        plot(x1, f(x1), "r*", 'HandleVisibility', 'off')
         tangent_line = df(x1)*(x_values - x1);
-        plot(x_values,tangent_line)
+        plot(x_values,tangent_line, 'DisplayName', 'Tagente')
         x0 = x1;
-
     end
+
+    title('Gráfica f(x)')
+    xlabel('Eje x')
+    ylabel('Eje y')
+    legend('show')
+
 end
 
 
@@ -39,5 +46,6 @@ df = @ (x) ((1 ./ (4*pi* ep) .* ( q .* q .* (a^2 - 2.*x^2)) ./ ((x^2 + a^2)^(5/2
 
 [r, iter] = newtonra(f, df, 0, 10^-6, 50);
 fprintf("La raiz de la funcion es: %f", r)
-fprintf("El numero de iteraciones es: %i", iter)
+fprintf("El numero de iteraciones es: %i\n", iter)
 graph(iter,f,df);
+legend(["Función", "Tagente", "Tagente", "Tagente"], "Position", [0.1553 0.7122 0.2127, 0.1783])
