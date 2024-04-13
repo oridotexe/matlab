@@ -15,9 +15,9 @@ end
 function graph(f, x1) 
     x_values = linspace(0, 1);
     F_values = f(x_values);
-    plot(x_values, F_values, 'DisplayName', 'f(x)'); 
+    plot(x_values, F_values,'color', [0.5, 0, 0.5],'DisplayName', 'f(x)'); 
     hold on;
-    plot(x1, f(x1), 'ro', 'DisplayName', 'Raiz'); 
+    plot(x1, f(x1), 'bo', 'DisplayName', 'Raiz'); 
     title('Gráfica de f(x) y punto de interés');
     xlabel('Eje x');
     ylabel('f(x)');
