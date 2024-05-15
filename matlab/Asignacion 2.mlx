@@ -1,0 +1,56 @@
+% Definimos las variables simbólicas
+syms x y
+
+% Definimos las ecuaciones del sistema
+f1 = (x - 4)^2 + (y - 4)^2 - 5;
+f2 = x^2 + y^2 - 16;
+
+% Jacobiano de las ecuaciones
+J = jacobian([f1; f2], [x, y]);
+
+% Convertimos las expresiones simbólicas en funciones anónimas
+f = matlabFunction([f1; f2], 'Vars', {x, y});
+jf = matlabFunction(J, 'Vars', {x, y});
+
+% Enfoque gráfico para obtener valores iniciales
+% Graficamos las ecuaciones
+figure;
+fimplicit(f1 == 0, [-6, 6, -6, 6]);
+hold on;
+fimplicit(f2 == 0, [-6, 6, -6, 6]);
+title('Gráfica de las ecuaciones');
+xlabel('x');
+ylabel('y');
+legend('(x - 4)^2 + (y - 4)^2 = 5', 'x^2 + y^2 = 16');
+grid on;
+hold off;
+
+% A partir del gráfico, seleccionamos valores iniciales cercanos a las raíces
+x0 = [3.8, 2]; % Por ejemplo
+
+% Parámetros adicionales
+m = 100; % Número máximo de iteraciones
+E = 1e-6; % Error permitido
+
+% Método de Newton
+k = 1;
+while k <= m
+    fo = f(x0(1), x0(2));
+    jfo = jf(x0(1), x0(2));
+    x = x0 - jfo\fo;
+    f1 = f(x(1), x(2));
+    Norma = norm(f1, Inf);
+    
+    fprintf('%d ', k);
+    fprintf('%.6f %.6f ', x(1), x(2));
+    fprintf('Norma: %.6f\n', Norma);
+    
+    if Norma < E
+        break
+    end
+    
+    k = k + 1;
+    x0 = x;
+end
+
+fprintf("Solucion \n");
