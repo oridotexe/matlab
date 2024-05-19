@@ -1,21 +1,17 @@
 function graph(eq1, eq2)
     figure;
-    fimplicit(eq1, [-10, 10, -10, 10]);
-    hold on;
 
+    fimplicit(eq1, [-10, 10, -10, 10], 'g');
+    hold on;
     fimplicit(eq2, [-10, 10, -10, 10]);
 
     title('Gráfico de las ecuaciones');
     xlabel('x');
     ylabel('y');
 
-    %legend(["(x-4)^2+(y-4)^2 = 5", "x^2+y^2 = 16"], "Position", [0.1391 0.1794 0.3721, 0.1362])
     grid on;
     hold off;
 end
-
-
-
 
 function [x, iter] = newtonse(F, x0, tol, itmax)
     v = symvar(F);
@@ -37,28 +33,18 @@ function [x, iter] = newtonse(F, x0, tol, itmax)
 end
 
 syms x y
-F = [(x - 4)^2 + (y - 4)^2 - 5; x^2 + y^2 - 16];
+
 x0 = [3.8; 2]; 
 tol = 1e-6;
 max_iter = 100;
 
-% para el grafico
 eq1 = (x - 4)^2 + (y - 4)^2 - 5;
 eq2 = x^2 + y^2 - 16;
+F = [eq1; eq2];
+
 graph(eq1, eq2);
-
-
 [x, iter] = newtonse(F, x0, tol, max_iter);
 
 disp('Solución encontrada:');
 disp(x);
 disp(['Número de iteraciones: ', num2str(iter)]);
-
-
-
-
-
-
-
-
-
