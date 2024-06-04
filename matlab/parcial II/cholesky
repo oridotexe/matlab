@@ -1,0 +1,41 @@
+function [L, tL] = calcular_determinantes(A)
+    [~, n] = size(A);
+    negativo = false;
+
+    for i = 1:n
+        subA = A(1:i, 1:i);
+        det_subA = det(subA);
+        if det_subA < 0
+            negativo = true;
+        end
+    end
+
+    if negativo
+        disp('La matriz A tiene determinantes negativos.');
+    else
+        disp('Todos los determinantes de la matriz A son positivos.');
+        L = chol(A, "lower")
+        tL = L'
+
+        disp('Verificar valores: ')
+        verficacion = L * tL;
+        disp(verficacion)
+    end
+end
+
+
+A = [4 -1 1 0; -1 4 0 -1; -1 0 4 -1; 0 -1 -1 4];
+b = [6; 25; -11; -11];
+
+[L, tL] = calcular_determinantes(A);
+
+
+function [x] = trisolve(L, tL, b)
+    % Resolver Ly = b
+    y = L \ b;
+    
+    % Resolver L'x = y
+    x = L' \ y;
+end
+
+[x] = trisolve(L, tL, b)
